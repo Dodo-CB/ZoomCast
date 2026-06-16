@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 100vw;
+      height: 100vh;
+      background: transparent;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .border {
+      position: fixed;
+      inset: 0;
+      border: 3px solid #7c3aed;
+      pointer-events: none;
+      border-radius: 2px;
+      animation: pulse-border 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulse-border {
+      0%, 100% {
+        border-color: rgba(124, 58, 237, 0.7);
+        box-shadow: 0 0 20px rgba(124, 58, 237, 0.2) inset,
+                    0 0 8px rgba(124, 58, 237, 0.4);
+      }
+      50% {
+        border-color: rgba(167, 139, 250, 1);
+        box-shadow: 0 0 30px rgba(167, 139, 250, 0.35) inset,
+                    0 0 14px rgba(167, 139, 250, 0.6);
+      }
+    }
+
+    .badge {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10, 10, 10, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      padding: 9px 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: white;
+      font-size: 13px;
+      white-space: nowrap;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ef4444;
+      flex-shrink: 0;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .rec-label {
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      color: #ef4444;
+    }
+
+    .timer {
+      font-family: 'SF Mono', 'Consolas', monospace;
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      min-width: 42px;
+    }
+
+    .sep {
+      width: 1px;
+      height: 14px;
+      background: rgba(255,255,255,0.15);
+    }
+
+    .stop-hint {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,0.45);
+      font-size: 12px;
+    }
+
+    .key {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 5px;
+      padding: 1px 7px;
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.7);
+    }
+  </style>
+</head>
+<body>
+  <div class="border"></div>
+  <div class="badge">
+    <div class="dot"></div>
+    <span class="rec-label">REC</span>
+    <span class="timer" id="timer">0:00</span>
+    <div class="sep"></div>
+    <div class="stop-hint">
+      <span class="key">F5</span>
+      <span>stoppen</span>
+    </div>
+  </div>
+
+  <script>
+    const start = Date.now()
+    const timerEl = document.getElementById('timer')
+
+    function pad(n) { return String(n).padStart(2, '0') }
+
+    function tick() {
+      const ms = Date.now() - start
+      const s = Math.floor(ms / 1000)
+      const m = Math.floor(s / 60)
+      timerEl.textContent = m + ':' + pad(s % 60)
+    }
+
+    tick()
+    setInterval(tick, 500)
+  </script>
+</body>
+</html>
